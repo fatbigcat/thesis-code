@@ -83,6 +83,7 @@ model CriterionWeight {
   criterionId   Int
   modelVersion  String
   weight        Float
+  maxScore      Int
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 }
@@ -94,7 +95,6 @@ model Grade {
   criterion   Criterion   @relation(fields: [criterionId], references: [id])
   criterionId Int
   score       Float
-  maxScore    Float
   grader      GraderType
   confidence  Float?
   comment     String?
