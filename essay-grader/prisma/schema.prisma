@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
 }
 
 datasource db {
@@ -32,7 +31,7 @@ model Essay {
   content     String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  scanUrl     String?      // optional: link to scanned original essay file
+  scanUrl     String?      //optional: link to scanned original essay file
   annotations Annotation[]
   grades      Grade[]
   instruction Instruction  @relation(fields: [instructionId], references: [id])
@@ -43,7 +42,7 @@ model Annotation {
   id          Int        @id @default(autoincrement())
   essay       Essay      @relation(fields: [essayId], references: [id])
   essayId     Int
-  type        String     // e.g. "comment", "correction", "AI"
+  type        String     //"comment", "correction", "AI"
   startOffset Int
   endOffset   Int
   content     String
@@ -56,36 +55,45 @@ model Annotation {
 }
 
 model Instruction {
-  id          Int         @id @default(autoincrement())
-  title       String
-  description String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  criteria    Criterion[]
-  essays      Essay[]
+  id        Int        @id @default(autoincrement())
+  type      String     //"argumentative" | "interpretative"
+  theme     String
+  title     String
+  prompt    String
+  time      String
+  criteria  Criterion[]
+  essays    Essay[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Criterion {
-  id             Int           @id @default(autoincrement())
-  instruction    Instruction   @relation(fields: [instructionId], references: [id])
-  instructionId  Int
-  name           String
-  description    String?
-  grades         Grade[]
-  weights        CriterionWeight[]
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  id                Int        @id @default(autoincrement())
+  instruction       Instruction @relation(fields: [instructionId], references: [id])
+  instructionId     Int
+  label             String     // "A", "B", "C", "D"
+  title             String
+  details           String
+  scoringGuidelines String
+  taxonomyLevel     String
+  parent            String?    // nullable
+  specifications    Specification[]
+  grades            Grade[]
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
-model CriterionWeight {
-  id            Int         @id @default(autoincrement())
-  criterion     Criterion   @relation(fields: [criterionId], references: [id])
+model Specification {
+  id            Int       @id @default(autoincrement())
+  criterion     Criterion @relation(fields: [criterionId], references: [id])
   criterionId   Int
-  modelVersion  String
-  weight        Float
-  maxScore      Int
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  label         String    //"A", "B", "C", "D"
+  title         String
+  details       String
+  maxPoints     Int
+  taxonomyLevel String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Grade {

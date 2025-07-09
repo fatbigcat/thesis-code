@@ -1,0 +1,68 @@
+{
+  "instructions": [
+    {
+      "type": "argumentative",
+      "theme": "Vsebina eseja",
+      "title": "Razpravljalni esej",
+      "prompt": "Predstavite dogajalni prostor v dramah Zaprta vrata in Naše skladišče ter pojasnite, zakaj ga osebe doživljajo kot 'peklenskega'.",
+      "time": "SM 2024"
+    },
+    {
+      "type": "interpretative",
+      "theme": "Vsebina eseja",
+      "title": "Razlagalni/interpretativni esej",
+      "prompt": "Na podlagi didaskalij povzemite dogajanje v odlomku.",
+      "time": "SM 2024"
+    }
+  ],
+  "criteria": [
+    {
+      "label": "A",
+      "title": "Predstavitev dogajalnega prostora",
+      "details": "Kandidat predstavi dogajalni prostor in pojasni, kako 'pekel' doživljajo osebe.",
+      "scoring_guidelines": "8 točk",
+      "taxonomy_level": "I. in II.",
+      "parent": "Razpravljalni esej"
+    },
+    {
+      "label": "B",
+      "title": "Primerjava odnosov",
+      "details": "Kandidat primerja odnose med osebami, tako da navaja podobnosti in razlike.",
+      "scoring_guidelines": "8 točk",
+      "taxonomy_level": "II.",
+      "parent": "Razpravljalni esej"
+    },
+    {
+      "label": "C",
+      "title": "Presoja uresničitve besed",
+      "details": "Kandidat presodi, v kolikšni meri osebe uresničijo besede 'Če ti kaj ni všeč, veš, kje so vrata'.",
+      "scoring_guidelines": "6 točk",
+      "taxonomy_level": "II. in III.",
+      "parent": "Razpravljalni esej"
+    },
+    {
+      "label": "Č",
+      "title": "Pojasnilo problemov našega časa",
+      "details": "Kandidat pojasni, kateri problemi v dramah ustvarjajo 'pekel' našega časa.",
+      "scoring_guidelines": "8 točk",
+      "taxonomy_level": "II. in III.",
+      "parent": "Razpravljalni esej"
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Vsebina",
+      "title": "Punkta za vsebino",
+      "details": "Kandidat lahko dobi do 30 točk za vsebino v esejih.",
+      "max_points": 30,
+      "taxonomy_level": "N/A"
+    },
+    {
+      "label": "Jezik",
+      "title": "Punkta za jezik",
+      "details": "Kandidat lahko dobi do 20 točk za jezikovno pravilnost, besedišče in slog povedi.",
+      "max_points": 20,
+      "taxonomy_level": "N/A"
+    }
+  ]
+}
