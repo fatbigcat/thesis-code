@@ -1,0 +1,49 @@
+{
+  "instructions": [
+    {
+      "type": "razpravljalni",
+      "time": "SM 2024",
+      "theme": "UJETI ALI SVOBODNI?",
+      "title": "ZAKAJ JE BIVANJE ZA ZAPRTIMI VRATI IN V SKLADIŠČU PEKLENSKO?",
+      "prompt": "GARCIN: Se smeje. To je torej pekel. Nikoli si ne bi bil mislil … Se spominjata: žveplo, grmada, raženj … kakšna neslanost! Tudi brez ražnja gre. Pekel so drugi.
+(J.-P. Sartre: Zaprta vrata)
+VERA: Podpisale smo za eno leto nonstop, samo nedelje frej. Dobimo zraven stanovanje, tuše in prehrano.
+MARIA: Hudičeva pogodba.
+VERA: Ta fina se spet pritožuje. Če ti kaj ni všeč, veš, kje so vrata. Koliko jih čaka zunaj, da pridejo na tvoje mesto.
+(T. Mislej: Naše skladišče)
+Predstavite dogajalni prostor v dramah Zaprta vrata in Naše skladišče ter pojasnite, zakaj ga osebe doživljajo kot »peklenskega«. Primerjajte odnose med osebami v prvi drami z odnosi med osebami v drugi drami. Presodite, v kolikšni meri lahko osebe obeh dram uresničijo besede »Če ti kaj ni všeč, veš, kje so vrata«. Pojasnite, kateri problemi, izpostavljeni v dramah, ustvarjajo tudi »pekel« našega časa. Ali menite, da za sodobnega človeka obstaja izhod iz njega?",
+    },
+    {
+      "type": "interpretativni",
+      "time": "SM 2024",
+      "theme": "Ujeti ali svobodni?",
+      "title": "Slavko Grum: Dogodek v mestu Gogi (odlomek)",
+      "prompt": "Na podlagi didaskalij povzemite dogajanje v odlomku. Predstavite vzdušje v prvem in drugem delu odlomka ter predstavitev utemeljite z jezikovnimi in s slogovnimi sredstvi. Označite Klikota na podlagi odlomka. Ali je Klikot med branjem v vas vzbudil sočutje? Svoj odziv utemeljite. Presodite, ali se v nadaljevanju drame Klikot kot dramska oseba razvije.",
+    }
+  ],
+  "specifications": [
+    {
+      "label": "A",
+      "title": "predstavitev dogajalnega prostora in pojasnilo doživljanja podobe »pekla« v dramah Zaprta vrata in Naše skladišče",
+      "details": "Kandidat predstavi dogajalni prostor in pojasni, kako »pekel« doživljajo osebe, tako da izhaja iz poznavanja in razumevanja vsebine.\nStruktura: nizanje trditev, naštevalno pomensko razmerje in trditev – dokazovanje trditve, vzročno-posledično pomensko razmerje.\nNačin razvijanja teme: opisovanje, razlaganje.",
+      "max_points": 8,
+      "taxonomy_level": "I. in II."
+    },
+    {
+      "label": "B",
+      "title": "primerjava odnosov med osebami",
+      "details": "Kandidat primerja odnose med osebami, tako da navaja podobnosti in razlike.\nStruktura primerjave: uvodna trditev/teza – 2 do 3 členi primerjave (podobnosti/razlike) – sinteza/sklep.\nNačin razvijanja teme: razlaganje z utemeljevanjem.",
+      "max_points": 8,
+      "taxonomy_level": "II."
+    }
+  ],
+  "criteria": [
+    {
+      "label": "A",
+      "title": "Predstaviti dogajalni prostor v dramah Zaprta vrata in Naše skladišče ter pojasniti, zakaj ga osebe doživljajo kot »peklenskega« (4 + 4), npr.:",
+      "details": "Zaprta vrata:\n– dogajalni prostor je manjša soba za zaprtimi vrati, v kateri se po smrti znajdejo tri osebe – Garcin, Ines in Estelle; vrata v salon v empirskem slogu se odpirajo le z zunanje strani, zato izhod iz njega ni mogoč; soba nima oken in ogledal, v njej so le trije naslanjači različnih barv, kamin, na katerem je težak bronast odlitek, in zvonec, ki ne dela; v sobi je neznosno vroče in soparno, ves čas sveti luč, ki se je ne da ugasniti;\n– vse tri osebe prostor doživljajo kot peklenski, saj je psihično trpljenje hujše od vsakršnega tradicionalnega »pekla«; vse tri osebe prostor doživljajo kot utesnjujoč, zadušljiv, soparen in brezizhoden, torej »peklenski«; ugotovijo, da ni naključij in da so skupaj zato, da pekel ustvarjajo drug drugemu; osebe so si ob prihodu pekel predstavljale drugače;\nNaše skladišče:\n– dogajalni prostor je velikansko skladišče v hipermegamarketu, ki je umaknjeno in skrito pred kupci, zato deluje kot nekakšen vzporedni svet te ogromne trgovine; v skladišču je nešteto škatel različnih velikosti, na policah so izdelki, pripravljeni za prenos na police trgovine; v skladišču štiri delavke od jutra do večera, vse dni v tednu, opravljajo enolično delo; v njem tudi bivajo in spijo, zato se zdi, kot bi bilo skladišče delovno taborišče; vse njihove dejavnosti – delo, odmori, počitek, prhanje in tudi gledanje TV – so natančno določene in nadzorovane;\n– delavke prostor doživljajo kot peklenski zaradi utesnjenosti, nemoči, brezizhodnosti, krivic in zatiranja, saj ves čas v nehumanih razmerah opravljajo težaško delo za slabo plačilo in skromno odmerjen počitek, kar ustvarja njihovo nezadovoljstvo; delavke so podpisale enoletno pogodbo za delo in bivanje v skladišču, kar doživljajo kot »hudičevo pogodbo«; poleg fizične utrujenosti in enoličnega delovnika doživljajo tudi psihične pritiske in grožnje z odpuščanjem; vse mislijo, da je skladišče v njihovem življenju samo začasna postaja; kljub vsej peklenskosti pa je skladišče tudi prostor medsebojne solidarnosti in hrepenenja po drugačnem življenju.",
+      "scoring_guidelines": "– do 8 točk: poglobljena predstavitev obeh dogajalnih prostorov in pojasnilo doživljanja oseb, ki vključuje več značilnosti s ponazoritvijo;\n– do 4 točke: predstavitev obeh dogajalnih prostorov brez pojasnila doživljanja oseb;",
+      "parent": null
+    }
+  ]
+}

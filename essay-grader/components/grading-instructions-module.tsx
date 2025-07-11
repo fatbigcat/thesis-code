@@ -120,7 +120,7 @@ export default function GradingInstructionsModule() {
                 <CheckCircle className="h-10 w-10 text-green-500" />
                 <p className="font-medium">{file?.name}</p>
                 <p className="text-sm text-muted-foreground">
-                  {(file?.size / 1024 / 1024).toFixed(2)} MB
+                  {((file?.size ?? 0) / 1024 / 1024).toFixed(2)} MB
                 </p>
               </>
             ) : (

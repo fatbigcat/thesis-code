@@ -1,11 +1,11 @@
+import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import dotenv from "dotenv";
 dotenv.config();
 
-import { extractTextFromPdf, parseRawText } from "../lib/utils.js";
 import { getSystemPrompt, getUserPrompt } from "../lib/generatePrompt.js";
-import { ParsedInstructions } from "../types/parsedInstructions";
+import { extractTextFromPdf, parseRawText } from "../lib/server-utils.js";
+import { ParsedInstructions } from "../types/parsing.types";
 
 // === CONFIG ===
 const FILE_PATH = "test_data/grading_instructions.pdf";
@@ -33,15 +33,16 @@ async function run() {
   const rawText = await extractTextFromPdf(buffer);
 
   const folderPath = getNextFolderPath();
-  fs.writeFileSync(
-    path.join(folderPath, "extracted_text.txt"),
-    rawText,
-    "utf-8"
-  );
 
-  // Generate prompts
   const systemPrompt = getSystemPrompt();
   const userPrompt = getUserPrompt(rawText);
+
+  // Save prompts to files
+  fs.writeFileSync(
+    path.join(folderPath, "system_prompt.txt"),
+    systemPrompt,
+    "utf-8"
+  );
 
   try {
     const parsed: ParsedInstructions = await parseRawText(

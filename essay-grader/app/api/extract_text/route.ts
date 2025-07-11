@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { extractTextFromPdf } from "@/lib/utils";
+import { extractTextFromPdf } from "@/lib/server-utils";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();

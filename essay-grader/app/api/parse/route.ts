@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSystemPrompt, getUserPrompt } from "@/lib/generatePrompt";
-import { parseRawText } from "@/lib/utils";
+import { parseRawText } from "@/lib/server-utils";
+import { ParsedInstructions } from "@/types/parsing.types";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
   const userPrompt = getUserPrompt(rawText);
 
   try {
-    const parsed = await parseRawText(systemPrompt, userPrompt);
+    const parsed: ParsedInstructions = await parseRawText(systemPrompt, userPrompt);
     return NextResponse.json(parsed);
   } catch (error: unknown) {
     console.error("OpenAI parse error:", error);
