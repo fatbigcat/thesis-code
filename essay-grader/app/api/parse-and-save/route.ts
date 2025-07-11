@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getSystemPrompt, getUserPrompt } from "@/lib/generatePrompt";
 import { parseRawText } from "@/lib/server-utils";
-import { createFromParsedInstructions } from "@/lib/database";
+import { createFromParsedInstructions } from "@/services/database";
 import { ParsedInstructions } from "@/types/parsing.types";
 
 const prisma = new PrismaClient();

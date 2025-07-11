@@ -51,6 +51,20 @@
         "focus": false,
         "panel": "shared"
       }
+    },
+    {
+      "label": "debug test-db",
+      "type": "shell",
+      "command": "npx",
+      "args": ["tsx", "scripts/test-db.ts"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      },
+      "problemMatcher": ["$tsc"]
     }
   ]
 }
