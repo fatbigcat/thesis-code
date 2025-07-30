@@ -107,8 +107,17 @@ export default function GradingInstructionsModule() {
       console.log("[DEBUG] Got response from /api/parse:", parseResponse);
       if (!parseResponse.ok) throw new Error("Failed to parse instructions");
       const result = await parseResponse.json();
-      console.log("[DEBUG] Parsed result:", result);
-      setParsedResult(result);
+      // Accepts both: [{parsed, ...}] (research) or [{...parsed fields}] (frontend-only)
+      let parsedArr;
+      if (Array.isArray(result) && result.length > 0 && result[0].parsed) {
+        // Research format: [{parsed, ...}]
+        parsedArr = result.map((r) => r.parsed);
+      } else {
+        // Frontend-only format: [{...parsed fields}]
+        parsedArr = result;
+      }
+      console.log("[DEBUG] Parsed result (frontend only):", parsedArr);
+      setParsedResult(parsedArr);
       setProcessingStatus("complete");
     } catch (err) {
       setProcessingStatus("error");
@@ -119,15 +128,29 @@ export default function GradingInstructionsModule() {
   // Save parsed instructions to backend
   const saveParsedInstructions = async () => {
     if (!parsedResult) return;
+    // Validate all specifications have a non-null, non-empty label
+    for (const sheet of parsedResult) {
+      if (!sheet.specifications || sheet.specifications.some(spec => !spec.label || typeof spec.label !== 'string' || spec.label.trim() === '')) {
+        setSaveStatus("error");
+        alert("Error: One or more specifications are missing a valid label. Please check your parsed data before saving.");
+        return;
+      }
+    }
     setSaveStatus("saving");
     try {
-      const saveResponse = await fetch("/api/save-instructions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sheets: parsedResult }),
-      });
-      if (!saveResponse.ok) throw new Error("Failed to save instructions");
-      setSaveStatus("success");
+      let allSuccess = true;
+      for (const sheet of parsedResult) {
+        const saveResponse = await fetch("/api/save-instructions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sheets: [sheet] }),
+        });
+        if (!saveResponse.ok) {
+          allSuccess = false;
+          console.error("[DEBUG] Error saving sheet:", sheet.title, await saveResponse.text());
+        }
+      }
+      setSaveStatus(allSuccess ? "success" : "error");
     } catch (err) {
       setSaveStatus("error");
       console.error("[DEBUG] Error during saveParsedInstructions:", err);

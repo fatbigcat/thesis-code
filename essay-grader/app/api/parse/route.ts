@@ -7,7 +7,6 @@ import {
   ParseRawTextResult,
 } from "@/lib/processText";
 
-
 export async function POST(req: NextRequest) {
   console.log("Received request to /api/parse");
   const formData = await req.formData();

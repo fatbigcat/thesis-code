@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Clock, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
-import EssayUploadModule from "./essay-upload-module";
+
 import GradingInstructionsModule from "./grading-instructions-module";
 
 // instruction sheet data from the API
@@ -63,9 +63,7 @@ export default function UploadSection() {
     }
   };
 
-  const handleInstructionsUploaded = () => {
-    fetchInstructionSheets();
-  };
+
 
   if (loading) {
     return (
@@ -96,12 +94,7 @@ export default function UploadSection() {
 
   return (
     <div className="space-y-8">
-      <div className="grid md:grid-cols-2 gap-6">
-        <GradingInstructionsModule
-          onUploadSuccess={handleInstructionsUploaded}
-        />
-        <EssayUploadModule />
-      </div>
+      <GradingInstructionsModule />
 
       {instructionSheets.length > 0 && (
         <Card>

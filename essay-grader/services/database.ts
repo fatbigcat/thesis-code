@@ -36,7 +36,37 @@ export async function createFromParsedInstructions(
     );
     const instructions = await Promise.all(
       sheet.instructions.map((inst) => {
+        // If label is null/empty, skip parent lookup and do not assign a parent
+        if (!inst.label) {
+          // Optionally, skip creating this instruction or handle as needed
+          // Here, we skip parent lookup and assign to the first specification
+          const fallbackSpec = specifications[0];
+          return prisma.instruction.create({
+            data: {
+              label: inst.label,
+              title: inst.title,
+              details: inst.details,
+              scoringGuidelines: inst.scoringGuidelines,
+              parent: null,
+              specificationId: fallbackSpec.id,
+            },
+          });
+        }
         const specLabel = inst.parent === "null" ? inst.label : inst.parent;
+        if (!specLabel) {
+          // If still no label, fallback as above
+          const fallbackSpec = specifications[0];
+          return prisma.instruction.create({
+            data: {
+              label: inst.label,
+              title: inst.title,
+              details: inst.details,
+              scoringGuidelines: inst.scoringGuidelines,
+              parent: null,
+              specificationId: fallbackSpec.id,
+            },
+          });
+        }
         const specification = specifications.find((s) => s.label === specLabel);
         if (!specification) {
           throw new Error(`Specification with label "${specLabel}" not found`);

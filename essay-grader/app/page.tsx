@@ -1,7 +1,8 @@
+import AssessmentDashboard from "@/components/assessment-dashboard";
+import EssayUploadModule from "@/components/essay-upload-module";
+import { Toaster } from "@/components/ui/sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UploadSection from "@/components/upload-section";
-import AssessmentDashboard from "@/components/assessment-dashboard";
-import { Toaster } from "@/components/ui/sonner";
 
 export default function Home() {
   return (
@@ -9,9 +10,10 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-6">AI-Powered Essay Assessment</h1>
 
       <Tabs defaultValue="upload" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-8">
-          <TabsTrigger value="upload">Upload Tests</TabsTrigger>
-          <TabsTrigger value="assess">Assessment</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 mb-8">
+          <TabsTrigger value="upload">Upload Instructions</TabsTrigger>
+          <TabsTrigger value="upload-essays">Upload Essays</TabsTrigger>
+          <TabsTrigger value="assessment">Assessment</TabsTrigger>
           <TabsTrigger value="export">Export Results</TabsTrigger>
         </TabsList>
 
@@ -19,7 +21,11 @@ export default function Home() {
           <UploadSection />
         </TabsContent>
 
-        <TabsContent value="assess">
+        <TabsContent value="upload-essays">
+          <EssayUploadModule />
+        </TabsContent>
+
+        <TabsContent value="assessment">
           <AssessmentDashboard />
         </TabsContent>
 
