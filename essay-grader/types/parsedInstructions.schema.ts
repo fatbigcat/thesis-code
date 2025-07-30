@@ -1,13 +1,11 @@
 import { z } from "zod";
 
 export const ParsedInstructionsSchema = z.object({
-  instructionSheet: z.object({
-    type: z.string(),
-    theme: z.string(),
-    title: z.string(),
-    prompt: z.string(),
-    time: z.string(),
-  }),
+  type: z.string(),
+  theme: z.string(),
+  title: z.string(),
+  prompt: z.string(),
+  time: z.string(),
   specifications: z.array(
     z.object({
       label: z.string(),
@@ -26,4 +24,5 @@ export const ParsedInstructionsSchema = z.object({
       parent: z.string().nullable().optional(),
     })
   ),
+  languagePrompt: z.string().optional().default(""),
 });

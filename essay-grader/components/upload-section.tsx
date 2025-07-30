@@ -63,6 +63,10 @@ export default function UploadSection() {
     }
   };
 
+  const handleInstructionsUploaded = () => {
+    fetchInstructionSheets();
+  };
+
   if (loading) {
     return (
       <div className="space-y-8">
@@ -93,7 +97,9 @@ export default function UploadSection() {
   return (
     <div className="space-y-8">
       <div className="grid md:grid-cols-2 gap-6">
-        <GradingInstructionsModule />
+        <GradingInstructionsModule
+          onUploadSuccess={handleInstructionsUploaded}
+        />
         <EssayUploadModule />
       </div>
 

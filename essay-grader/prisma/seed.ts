@@ -1,6 +1,10 @@
 import { PrismaClient, GraderType } from "@prisma/client";
 const prisma = new PrismaClient();
 
+/**
+ * Seeds the database with a sample instruction sheet, specifications, instructions, essay, and grade.
+ * Demonstrates nested creation and relationship setup for the grading system.
+ */
 async function main() {
   // 1. Create an InstructionSheet with nested Specifications and Instructions
   const instructionSheet = await prisma.instructionSheet.create({

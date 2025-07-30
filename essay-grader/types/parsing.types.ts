@@ -4,6 +4,9 @@ export interface ParsedInstructionSheet {
   title: string;
   prompt: string;
   time: string;
+  specifications: ParsedSpecification[];
+  instructions: ParsedInstruction[];
+  languagePrompt?: string;
 }
 
 export interface ParsedSpecification {
@@ -20,10 +23,4 @@ export interface ParsedInstruction {
   details: string;
   scoringGuidelines: string;
   parent?: string | null;
-}
-
-export interface ParsedInstructions {
-  instructionSheet: ParsedInstructionSheet;
-  specifications: ParsedSpecification[];
-  instructions: ParsedInstruction[];
 }

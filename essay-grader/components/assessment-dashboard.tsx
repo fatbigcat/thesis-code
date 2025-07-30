@@ -523,30 +523,30 @@ export default function AssessmentDashboard() {
                         <h4 className="font-medium">Issues Detected:</h4>
                         <ul className="list-disc pl-5 mt-2 space-y-1">
                           <li>
-                            Redundant phrasing:{" "}
+                            Redundant phrasing: {" "}
                             <span className="bg-red-100 px-1">
-                              "organizations such as the Food and Agriculture
-                              Organization (FAO)"
+                              &quot;organizations such as the Food and Agriculture
+                              Organization (FAO)&quot;
                             </span>
                           </li>
                           <li>
-                            Wordiness:{" "}
+                            Wordiness: {" "}
                             <span className="bg-red-100 px-1">
-                              "The complexity of these challenges necessitates
-                              comprehensive responses"
+                              &quot;The complexity of these challenges necessitates
+                              comprehensive responses&quot;
                             </span>
                           </li>
                           <li>
-                            Weak transition:{" "}
+                            Weak transition: {" "}
                             <span className="bg-yellow-100 px-1">
-                              "However, adaptation alone is insufficient."
+                              &quot;However, adaptation alone is insufficient.&quot;
                             </span>
                           </li>
                           <li>
-                            Uncited claim:{" "}
+                            Uncited claim: {" "}
                             <span className="bg-yellow-100 px-1">
-                              "accounting for approximately 24% of global
-                              greenhouse gas emissions"
+                              &quot;accounting for approximately 24% of global
+                              greenhouse gas emissions&quot;
                             </span>
                           </li>
                         </ul>
@@ -556,23 +556,23 @@ export default function AssessmentDashboard() {
                         <h4 className="font-medium">Suggestions:</h4>
                         <ul className="list-disc pl-5 mt-2 space-y-1">
                           <li>
-                            Replace "organizations such as the Food and
-                            Agriculture Organization (FAO)" with "the Food and
-                            Agriculture Organization (FAO)"
+                            Replace &quot;organizations such as the Food and
+                            Agriculture Organization (FAO)&quot; with &quot;the Food and
+                            Agriculture Organization (FAO)&quot;
                           </li>
                           <li>
-                            Simplify "The complexity of these challenges
-                            necessitates comprehensive responses" to "These
-                            complex challenges require comprehensive responses"
+                            Simplify &quot;The complexity of these challenges
+                            necessitates comprehensive responses&quot; to &quot;These
+                            complex challenges require comprehensive responses&quot;
                           </li>
                           <li>
-                            Strengthen the transition with "Despite these
+                            Strengthen the transition with &quot;Despite these
                             adaptation strategies, mitigation efforts are also
-                            essential because..."
+                            essential because...&quot;
                           </li>
                           <li>
                             Add citation for the emissions statistic or qualify
-                            with "according to recent estimates"
+                            with &quot;according to recent estimates&quot;
                           </li>
                         </ul>
                       </div>

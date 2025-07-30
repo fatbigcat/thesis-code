@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ParsedInstructionsSchema",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string" },
+    "theme": { "type": "string" },
+    "title": { "type": "string" },
+    "prompt": { "type": "string" },
+    "time": { "type": "string" },
+    "specifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "title": { "type": "string" },
+          "details": { "type": "string" },
+          "taxonomyLevel": { "type": "string" },
+          "parent": { "type": ["string", "null"] }
+        },
+        "required": ["label", "title", "details", "taxonomyLevel", "parent"],
+        "additionalProperties": false
+      }
+    },
+    "instructions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "title": { "type": "string" },
+          "details": { "type": "string" },
+          "scoringGuidelines": { "type": "string" },
+          "parent": { "type": ["string", "null"] }
+        },
+        "required": [
+          "label",
+          "title",
+          "details",
+          "scoringGuidelines",
+          "parent"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "type",
+    "theme",
+    "title",
+    "prompt",
+    "time",
+    "specifications",
+    "instructions"
+  ],
+  "additionalProperties": false
+}

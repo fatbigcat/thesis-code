@@ -31,7 +31,7 @@ model Essay {
   content           String
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
-  scanUrl           String?          //optional: link to scanned original essay file
+  scanUrl           String?          
   annotations       Annotation[]
   grades            Grade[]
   instructionSheet  InstructionSheet @relation(fields: [instructionSheetId], references: [id])
@@ -56,10 +56,11 @@ model Annotation {
 
 model InstructionSheet {
   id             Int             @id @default(autoincrement())
-  type           String          //"argumentative" | "interpretative"
+  type           String          //razlagalni 
   theme          String
   title          String
   prompt         String
+  languagePrompt String?         
   time           String
   specifications Specification[]
   essays         Essay[]

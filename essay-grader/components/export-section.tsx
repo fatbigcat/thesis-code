@@ -49,7 +49,7 @@ export default function ExportSection() {
       return;
     }
 
-    toast.success("Exporting data in ${selectedFormat}...");
+    toast.success(`Exporting data in ${selectedFormat}...`);
 
     // Simulate export process
     setTimeout(() => {
@@ -63,9 +63,11 @@ export default function ExportSection() {
         <CardContent className="pt-6">
           <div className="grid gap-6 md:grid-cols-3">
             {exportOptions.map((option) => (
-              <div
+              <button
                 key={option.id}
-                className={`border rounded-md p-4 cursor-pointer transition-colors ${
+                type="button"
+                aria-pressed={selectedFormat === option.id}
+                className={`border rounded-md p-4 w-full text-left cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
                   selectedFormat === option.id
                     ? "border-primary bg-primary/5"
                     : "hover:border-primary"
@@ -79,7 +81,7 @@ export default function ExportSection() {
                 <p className="text-sm text-muted-foreground">
                   {option.description}
                 </p>
-              </div>
+              </button>
             ))}
           </div>
 
@@ -156,7 +158,7 @@ export default function ExportSection() {
             </div>
 
             <p className="text-sm text-muted-foreground">
-              AI Accuracy represents how often teachers agree with the AI's
+              AI Accuracy represents how often teachers agree with the AI&apos;s
               assessment. This data helps improve the AI model over time.
             </p>
           </div>

@@ -3,19 +3,21 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+/**
+ * Tests the database service by creating a sample instruction sheet, specifications, and instructions.
+ * Verifies relationships and prints results to the console.
+ */
 async function testDatabaseService() {
   try {
     console.log("🧪 Testing database service...");
 
     const testData = {
-      instructionSheet: {
-        type: "razpravljalni",
-        theme: "UJETI ALI SVOBODNI?",
-        title: "ZAKAJ JE BIVANJE ZA ZAPRTIMI VRATI IN V SKLADIŠČU PEKLENSKO?",
-        prompt:
-          "GARCIN:  Se smeje. To je torej pekel. Nikoli si ne bi bil mislil ... Se spominjata: žveplo, grmada, raženj ... kakšna neslanost! Tudi brez ražnja gre. Pekel so drugi. (J.-P. Sartre: Zaprta vrata) VERA: Podpisale smo za eno leto nonstop, samo nedelje frej. Dobimo zraven stanovanje, tuše in prehrano. MARIA: Hudičeva pogodba. VERA: Ta fina se spet pritožuje. Če ti kaj ni všeč, veš, kje so vrata. Koliko jih čaka zunaj, da pridejo na tvoje mesto. (T. Mislej: Naše skladišče) Predstavite dogajalni prostor v dramah Zaprta vrata in Naše skladišče ter pojasnite, zakaj ga osebe doživljajo kot 'peklenskega'. Primerjajte odnose med osebami v prvi drami z odnosi med osebami v drugi drami. Presodite, v kolikšni meri lahko osebe obeh dram uresničijo besede 'Če ti kaj ni všeč, veš, kje so vrata'. Pojasnite, kateri problemi, izpostavljeni v dramah, ustvarjajo tudi 'pekel' našega časa. Ali menite, da za sodobnega človeka obstaja izhod iz njega?",
-        time: "SM 2024",
-      },
+      type: "razpravljalni",
+      theme: "UJETI ALI SVOBODNI?",
+      title: "ZAKAJ JE BIVANJE ZA ZAPRTIMI VRATI IN V SKLADIŠČU PEKLENSKO?",
+      prompt:
+        "GARCIN:  Se smeje. To je torej pekel. Nikoli si ne bi bil mislil ... Se spominjata: žveplo, grmada, raženj ... kakšna neslanost! Tudi brez ražnja gre. Pekel so drugi. (J.-P. Sartre: Zaprta vrata) VERA: Podpisale smo za eno leto nonstop, samo nedelje frej. Dobimo zraven stanovanje, tuše in prehrano. MARIA: Hudičeva pogodba. VERA: Ta fina se spet pritožuje. Če ti kaj ni všeč, veš, kje so vrata. Koliko jih čaka zunaj, da pridejo na tvoje mesto. (T. Mislej: Naše skladišče) Predstavite dogajalni prostor v dramah Zaprta vrata in Naše skladišče ter pojasnite, zakaj ga osebe doživljajo kot 'peklenskega'. Primerjajte odnose med osebami v prvi drami z odnosi med osebami v drugi drami. Presodite, v kolikšni meri lahko osebe obeh dram uresničijo besede 'Če ti kaj ni všeč, veš, kje so vrata'. Pojasnite, kateri problemi, izpostavljeni v dramah, ustvarjajo tudi 'pekel' našega časa. Ali menite, da za sodobnega človeka obstaja izhod iz njega?",
+      time: "SM 2024",
       specifications: [
         {
           label: "A",
@@ -103,32 +105,36 @@ async function testDatabaseService() {
       ],
     };
 
-    const result = await createFromParsedInstructions(prisma, testData);
+    const results = await createFromParsedInstructions(prisma, [testData]);
 
     console.log("✅ SUCCESS! Database service works correctly");
     console.log("📊 Created:");
-    console.log(`   - Instruction Sheet: ${result.instructionSheet.title}`);
-    console.log(`   - Specifications: ${result.specifications.length}`);
-    console.log(`   - Instructions: ${result.instructions.length}`);
+    results.forEach((result, idx) => {
+      console.log(` Sheet #${idx + 1}: ${result.instructionSheet.title}`);
+      console.log(`   - Specifications: ${result.specifications.length}`);
+      console.log(`   - Instructions: ${result.instructions.length}`);
 
-    // Verify relationships
-    console.log("\n🔗 Verifying relationships...");
-    const verification = await prisma.instructionSheet.findFirst({
-      where: { id: result.instructionSheet.id },
-      include: {
-        specifications: {
-          include: {
-            instructions: true,
+      // Verify relationships
+      console.log("\n🔗 Verifying relationships...");
+    });
+
+    for (const result of results) {
+      const verification = await prisma.instructionSheet.findFirst({
+        where: { id: result.instructionSheet.id },
+        include: {
+          specifications: {
+            include: {
+              instructions: true,
+            },
           },
         },
-      },
-    });
-
-    verification?.specifications.forEach((spec) => {
-      console.log(
-        `   Spec "${spec.label}": ${spec.instructions.length} instructions`
-      );
-    });
+      });
+      verification?.specifications.forEach((spec) => {
+        console.log(
+          `   Spec "${spec.label}": ${spec.instructions.length} instructions`
+        );
+      });
+    }
 
     console.log("\n🎉 All tests passed!");
   } catch (error) {
