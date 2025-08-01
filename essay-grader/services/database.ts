@@ -1,5 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { ParsedInstructionSheet } from "@/types/parsing.types";
+import type { ParsedInstructionSheet } from "@/types/parsing.types";
+import type {
+  InstructionSheet,
+  Specification,
+  Instruction,
+} from "@prisma/client";
 
 /**
  * Persists an array of parsed instruction sheets and their language prompts to the database.
@@ -8,66 +13,89 @@ import { ParsedInstructionSheet } from "@/types/parsing.types";
  * @param instructionSheets - Array of objects, each containing a ParsedInstructionSheet and its languagePrompt.
  * @returns An array of results, each with the created instructionSheet, specifications, and instructions.
  */
+
 export async function createFromParsedInstructions(
   prisma: PrismaClient,
   instructionSheets: ParsedInstructionSheet[]
-) {
-  const results = [];
+): Promise<
+  Array<{
+    instructionSheet: InstructionSheet;
+    specifications: Specification[];
+    instructions: Instruction[];
+  }>
+> {
+  const results: Array<{
+    instructionSheet: InstructionSheet;
+    specifications: Specification[];
+    instructions: Instruction[];
+  }> = [];
   for (const sheet of instructionSheets) {
-    const instructionSheet = await prisma.instructionSheet.create({
-      data: {
-        type: sheet.type,
-        theme: sheet.theme,
-        title: sheet.title,
-        prompt: sheet.prompt,
-        time: sheet.time,
-        languagePrompt: sheet.languagePrompt,
-      },
+    // upsert instruction sheet by title
+    let instructionSheet = await prisma.instructionSheet.findFirst({
+      where: { title: sheet.title },
     });
-    const specifications = await Promise.all(
-      sheet.specifications.map((spec) =>
-        prisma.specification.create({
-          data: {
-            ...spec,
-            instructionSheetId: instructionSheet.id,
-          },
-        })
+    if (instructionSheet) {
+      // update
+      instructionSheet = await prisma.instructionSheet.update({
+        where: { id: instructionSheet.id },
+        data: {
+          type: sheet.type,
+          theme: sheet.theme,
+          prompt: sheet.prompt,
+          time: sheet.time,
+          languagePrompt: sheet.languagePrompt,
+          updatedAt: new Date(),
+        },
+      });
+      // delete old instructions first, then specifications
+      await prisma.instruction.deleteMany({
+        where: { specification: { instructionSheetId: instructionSheet.id } },
+      });
+      await prisma.specification.deleteMany({
+        where: { instructionSheetId: instructionSheet.id },
+      });
+    } else {
+      instructionSheet = await prisma.instructionSheet.create({
+        data: {
+          type: sheet.type,
+          theme: sheet.theme,
+          title: sheet.title,
+          prompt: sheet.prompt,
+          time: sheet.time,
+          languagePrompt: sheet.languagePrompt,
+        },
+      });
+    }
+
+    // new specifications and build a label-to-specification map
+    const specMap: Record<string, Specification> = {};
+    const specifications: Specification[] = await Promise.all(
+      (sheet.specifications || []).map((spec) =>
+        prisma.specification
+          .create({
+            data: {
+              ...spec,
+              instructionSheetId: instructionSheet.id,
+            },
+          })
+          .then((createdSpec) => {
+            if (createdSpec.label) specMap[createdSpec.label] = createdSpec;
+            return createdSpec;
+          })
       )
     );
-    const instructions = await Promise.all(
-      sheet.instructions.map((inst) => {
-        // If label is null/empty, skip parent lookup and do not assign a parent
-        if (!inst.label) {
-          // Optionally, skip creating this instruction or handle as needed
-          // Here, we skip parent lookup and assign to the first specification
-          const fallbackSpec = specifications[0];
-          return prisma.instruction.create({
-            data: {
-              label: inst.label,
-              title: inst.title,
-              details: inst.details,
-              scoringGuidelines: inst.scoringGuidelines,
-              parent: null,
-              specificationId: fallbackSpec.id,
-            },
-          });
-        }
-        const specLabel = inst.parent === "null" ? inst.label : inst.parent;
+
+    // new instructions referencing the new specs
+    const instructions: Instruction[] = await Promise.all(
+      (sheet.instructions || []).map((inst) => {
+        const specLabel =
+          inst.parent === "null" || inst.parent == null
+            ? inst.label
+            : inst.parent;
         if (!specLabel) {
-          // If still no label, fallback as above
-          const fallbackSpec = specifications[0];
-          return prisma.instruction.create({
-            data: {
-              label: inst.label,
-              title: inst.title,
-              details: inst.details,
-              scoringGuidelines: inst.scoringGuidelines,
-              parent: null,
-              specificationId: fallbackSpec.id,
-            },
-          });
+          throw new Error(`Instruction label or parent is missing`);
         }
-        const specification = specifications.find((s) => s.label === specLabel);
+        const specification = specMap[specLabel];
         if (!specification) {
           throw new Error(`Specification with label "${specLabel}" not found`);
         }
@@ -83,7 +111,12 @@ export async function createFromParsedInstructions(
         });
       })
     );
-    results.push({ instructionSheet, specifications, instructions });
+
+    results.push({
+      instructionSheet,
+      specifications,
+      instructions,
+    });
   }
   return results;
 }

@@ -13,8 +13,10 @@ import {
 import { AlertCircle, CheckCircle, Upload, ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 
-
-function AccordionSheet(props: { sheet: ParsedInstructionSheet; defaultOpen?: boolean }) {
+function AccordionSheet(props: {
+  sheet: ParsedInstructionSheet;
+  defaultOpen?: boolean;
+}) {
   const { sheet, defaultOpen } = props;
   const [open, setOpen] = React.useState(!!defaultOpen);
   return (
@@ -30,16 +32,27 @@ function AccordionSheet(props: { sheet: ParsedInstructionSheet; defaultOpen?: bo
           <span className="font-semibold text-lg">{sheet.title}</span>
           <span className="ml-2 text-xs text-gray-500">({sheet.theme})</span>
         </div>
-        <ChevronDown className={`h-5 w-5 transition-transform ${open ? "rotate-180" : "rotate-0"}`} />
+        <ChevronDown
+          className={`h-5 w-5 transition-transform ${
+            open ? "rotate-180" : "rotate-0"
+          }`}
+        />
       </button>
       {open && (
         <div className="p-4 space-y-4">
           <div className="flex flex-col md:flex-row md:gap-8">
             <div className="flex-1 mb-2">
-              <div className="text-sm text-gray-700 mb-1"><span className="font-medium">Prompt:</span> {sheet.prompt}</div>
-              <div className="text-sm text-gray-700 mb-1"><span className="font-medium">Time:</span> {sheet.time}</div>
+              <div className="text-sm text-gray-700 mb-1">
+                <span className="font-medium">Prompt:</span> {sheet.prompt}
+              </div>
+              <div className="text-sm text-gray-700 mb-1">
+                <span className="font-medium">Time:</span> {sheet.time}
+              </div>
               {sheet.languagePrompt && (
-                <div className="text-sm text-gray-700 mb-1"><span className="font-medium">Language Prompt:</span> {sheet.languagePrompt}</div>
+                <div className="text-sm text-gray-700 mb-1">
+                  <span className="font-medium">Language Prompt:</span>{" "}
+                  {sheet.languagePrompt}
+                </div>
               )}
             </div>
           </div>
@@ -50,10 +63,17 @@ function AccordionSheet(props: { sheet: ParsedInstructionSheet; defaultOpen?: bo
               </div>
               <ul className="space-y-2">
                 {sheet.specifications?.map((spec: any, idx: number) => (
-                  <li key={`${spec.label || 'spec'}-${idx}`} className="border-b last:border-b-0 pb-2">
-                    <div className="font-medium text-blue-900">{spec.title}</div>
+                  <li
+                    key={`${spec.label || "spec"}-${idx}`}
+                    className="border-b last:border-b-0 pb-2"
+                  >
+                    <div className="font-medium text-blue-900">
+                      {spec.title}
+                    </div>
                     <div className="text-xs text-gray-600">{spec.details}</div>
-                    <div className="text-xs text-gray-500">Taxonomy: {spec.taxonomyLevel}</div>
+                    <div className="text-xs text-gray-500">
+                      Taxonomy: {spec.taxonomyLevel}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -64,10 +84,17 @@ function AccordionSheet(props: { sheet: ParsedInstructionSheet; defaultOpen?: bo
               </div>
               <ul className="space-y-2">
                 {sheet.instructions?.map((inst: any, idx: number) => (
-                  <li key={`${inst.label || 'inst'}-${idx}`} className="border-b last:border-b-0 pb-2">
-                    <div className="font-medium text-green-900">{inst.title}</div>
+                  <li
+                    key={`${inst.label || "inst"}-${idx}`}
+                    className="border-b last:border-b-0 pb-2"
+                  >
+                    <div className="font-medium text-green-900">
+                      {inst.title}
+                    </div>
                     <div className="text-xs text-gray-600">{inst.details}</div>
-                    <div className="text-xs text-gray-500">Scoring: {inst.scoringGuidelines}</div>
+                    <div className="text-xs text-gray-500">
+                      Scoring: {inst.scoringGuidelines}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -81,16 +108,17 @@ function AccordionSheet(props: { sheet: ParsedInstructionSheet; defaultOpen?: bo
 type FileStatus = "idle" | "uploading" | "success" | "error";
 type ProcessingStatus = "idle" | "processing" | "complete" | "error";
 
-// onUploadSuccess prop removed as it is unused
-
-
 export default function GradingInstructionsModule() {
   const [file, setFile] = useState<File | null>(null);
   const [fileStatus, setFileStatus] = useState<FileStatus>("idle");
   const [processingStatus, setProcessingStatus] =
     useState<ProcessingStatus>("idle");
-  const [parsedResult, setParsedResult] = useState<ParsedInstructionSheet[] | null>(null);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "success" | "error">("idle");
+  const [parsedResult, setParsedResult] = useState<
+    ParsedInstructionSheet[] | null
+  >(null);
+  const [saveStatus, setSaveStatus] = useState<
+    "idle" | "saving" | "success" | "error"
+  >("idle");
   // Parse only (does not save)
   const parseRubric = async () => {
     if (!file) return;
@@ -130,9 +158,19 @@ export default function GradingInstructionsModule() {
     if (!parsedResult) return;
     // Validate all specifications have a non-null, non-empty label
     for (const sheet of parsedResult) {
-      if (!sheet.specifications || sheet.specifications.some(spec => !spec.label || typeof spec.label !== 'string' || spec.label.trim() === '')) {
+      if (
+        !sheet.specifications ||
+        sheet.specifications.some(
+          (spec) =>
+            !spec.label ||
+            typeof spec.label !== "string" ||
+            spec.label.trim() === ""
+        )
+      ) {
         setSaveStatus("error");
-        alert("Error: One or more specifications are missing a valid label. Please check your parsed data before saving.");
+        alert(
+          "Error: One or more specifications are missing a valid label. Please check your parsed data before saving."
+        );
         return;
       }
     }
@@ -147,7 +185,11 @@ export default function GradingInstructionsModule() {
         });
         if (!saveResponse.ok) {
           allSuccess = false;
-          console.error("[DEBUG] Error saving sheet:", sheet.title, await saveResponse.text());
+          console.error(
+            "[DEBUG] Error saving sheet:",
+            sheet.title,
+            await saveResponse.text()
+          );
         }
       }
       setSaveStatus(allSuccess ? "success" : "error");
@@ -248,7 +290,7 @@ export default function GradingInstructionsModule() {
             <div className="space-y-4">
               {parsedResult.map((sheet, idx) => (
                 <AccordionSheet
-                  key={`${sheet.title || 'sheet'}-${idx}`}
+                  key={`${sheet.title || "sheet"}-${idx}`}
                   sheet={sheet}
                   defaultOpen={idx === 0}
                 />
@@ -256,19 +298,25 @@ export default function GradingInstructionsModule() {
             </div>
             {/* Save button and status */}
             <div className="mt-4 flex items-center gap-4">
-              <Button onClick={saveParsedInstructions} disabled={saveStatus === "saving"}>
+              <Button
+                onClick={saveParsedInstructions}
+                disabled={saveStatus === "saving"}
+              >
                 {saveStatus === "saving" ? "Saving..." : "Save to Database"}
               </Button>
               {saveStatus === "success" && (
-                <span className="text-green-600 flex items-center"><CheckCircle className="h-4 w-4 mr-1" /> Saved!</span>
+                <span className="text-green-600 flex items-center">
+                  <CheckCircle className="h-4 w-4 mr-1" /> Saved!
+                </span>
               )}
               {saveStatus === "error" && (
-                <span className="text-red-600 flex items-center"><AlertCircle className="h-4 w-4 mr-1" /> Error saving.</span>
+                <span className="text-red-600 flex items-center">
+                  <AlertCircle className="h-4 w-4 mr-1" /> Error saving.
+                </span>
               )}
             </div>
           </div>
         )}
-
 
         <div className="mt-6 space-y-4">
           {processingStatus === "processing" && (

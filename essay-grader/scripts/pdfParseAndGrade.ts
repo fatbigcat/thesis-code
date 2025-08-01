@@ -4,7 +4,11 @@ import path from "path";
 dotenv.config();
 
 import { getSystemPrompt, getUserPrompt } from "../lib/generatePrompt.js";
-import { extractTextFromPdf, parseRawText, processFullInstructionText } from "../lib/processText.js";
+import {
+  extractTextFromPdf,
+  parseRawText,
+  processFullInstructionText,
+} from "../lib/processText.js";
 
 const FILE_PATH = "test_data/grading_instructions.pdf";
 const OUTPUT_DIR = "./outputs";
@@ -40,7 +44,6 @@ async function run() {
 
   const folderPath = getNextFolderPath();
 
-  // Split into sections as in /api/parse
   let sections;
   try {
     sections = processFullInstructionText(rawText);
@@ -52,12 +55,10 @@ async function run() {
 
   const allResults = [];
   for (const section of sections) {
-    // Sanitize section name for filenames
-    const safeName = section.name.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const safeName = section.name.replace(/[^a-zA-Z0-9_-]/g, "_");
     const systemPrompt = getSystemPrompt();
     const userPrompt = getUserPrompt(section.specAndInstructions);
 
-    // Save prompts for this section
     fs.writeFileSync(
       path.join(folderPath, `system_prompt_${safeName}.txt`),
       systemPrompt,
@@ -71,13 +72,13 @@ async function run() {
 
     try {
       const result = await parseRawText(systemPrompt, userPrompt);
-      // Save the full raw LLM response
+
       fs.writeFileSync(
         path.join(folderPath, `raw_response_${safeName}.json`),
         JSON.stringify(result.rawResponse, null, 2),
         "utf-8"
       );
-      // Save the parsed output
+
       fs.writeFileSync(
         path.join(folderPath, `parsed_${safeName}.json`),
         JSON.stringify(result.parsed, null, 2),
@@ -88,15 +89,19 @@ async function run() {
         systemPrompt,
         userPrompt,
         parsed: result.parsed,
-        rawResponse: result.rawResponse
+        rawResponse: result.rawResponse,
       });
     } catch (err) {
-      fs.writeFileSync(path.join(folderPath, `error_${safeName}.txt`), String(err), "utf-8");
+      fs.writeFileSync(
+        path.join(folderPath, `error_${safeName}.txt`),
+        String(err),
+        "utf-8"
+      );
       console.error(`Parsing failed for section ${section.name}:`, err);
     }
   }
 
-  // Save a summary file with all results
+  //summary of all results
   fs.writeFileSync(
     path.join(folderPath, "summary.json"),
     JSON.stringify(allResults, null, 2),

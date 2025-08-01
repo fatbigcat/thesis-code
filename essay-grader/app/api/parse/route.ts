@@ -15,12 +15,11 @@ export async function POST(req: NextRequest) {
   if (!file || file.type !== "application/pdf") {
     return NextResponse.json({ error: "Invalid file" }, { status: 400 });
   }
-  // Read the PDF file as a buffer
+
   const buffer = await file.arrayBuffer();
-  // Extract text from the PDF buffer
   console.log("Extracting text from PDF...");
   const rawText = await extractTextFromPdf(Buffer.from(buffer));
-  console.log("Extracted raw text:", rawText.slice(0, 100)); // Log first 1000 chars for debugging
+  console.log("Extracted raw text:", rawText.slice(0, 100));
 
   if (!rawText) {
     return NextResponse.json(
@@ -29,11 +28,10 @@ export async function POST(req: NextRequest) {
     );
   }
   try {
-    // Split into two sections using regex
     console.log("Processing full instruction text...");
     const sections = processFullInstructionText(rawText);
     console.log("Processed sections:", sections.length);
-    // For each section, prompt OpenAI and collect results (with prompt and raw output)
+    // prompt openai for each section and collect results
     const results: ParseRawTextResult[] = await Promise.all(
       sections.map(async (section) => {
         const gradingPrompt = getSystemPrompt();

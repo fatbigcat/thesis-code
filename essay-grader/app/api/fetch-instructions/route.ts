@@ -27,7 +27,7 @@ export async function GET() {
           },
         },
       });
-
+    console.log("Fetched instruction sheets:", instructionSheets);
     return NextResponse.json(instructionSheets);
   } catch (error) {
     console.error("Error fetching instruction sheets:", error);

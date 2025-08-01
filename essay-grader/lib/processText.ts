@@ -63,11 +63,10 @@ export async function extractTextFromPdf(buffer: Buffer): Promise<string> {
  * @returns ParsedInstructionSheet object as specified by the zod schema.
  * @throws If the OpenAI API does not return a valid structured output.
  */
-
 export interface ParseRawTextResult {
   systemPrompt: string;
   userPrompt: string;
-  rawResponse: any;
+  rawResponse: unknown;
   parsed: ParsedInstructionSheet;
 }
 
